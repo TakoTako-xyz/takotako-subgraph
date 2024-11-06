@@ -1,0 +1,15 @@
+{
+  "network": "taiko",
+  "factory": {
+    "startBlock": "381014",
+    "address": "0x225BD906D398B1748d7DeF4a35A96f6E5eFD1420"
+  },
+  "lendingPoolConfigurator": {
+    "startBlock": "381014",
+    "address": "0xD07B62ee683267D4A884453eaE982A151653515E"
+  },
+  "lendingPool": {
+    "startBlock": "381014",
+    "address": "0x3A2Fd8a16030fFa8D66E47C3f1C0507c673C841e"
+  }
+}

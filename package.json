@@ -1,0 +1,30 @@
+{
+  "name": "takotako-subgraph",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TakoTako-xyz/takotako-subgraph.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "create-local": "graph create --node http://localhost:8020/ takotako",
+    "remove-local": "graph remove --node http://localhost:8020/ takotako",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 takotako",
+    "test": "graph test",
+    "setup": "yarn codegen && yarn create-local && yarn deploy-local",
+    "prepare:taiko": "mustache config/config-taiko.json subgraph.template.yaml > subgraph.yaml && yarn codegen && yarn build",
+    "create:taiko": "yarn prepare:taiko && goldsky subgraph create takotako/takotako-taiko",
+    "deploy:taiko": "yarn prepare:taiko && goldsky subgraph deploy takotako/takotako-taiko"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.56.0",
+    "@graphprotocol/graph-ts": "0.31.0"
+  },
+  "devDependencies": {
+    "matchstick-as": "0.5.0",
+    "mustache": "^4.2.0",
+    "which": "^3.0.0"
+  }
+}
