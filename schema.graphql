@@ -884,6 +884,12 @@ type Account @entity {
   " All liquidation events where this account got liquidated "
   liquidations: [Liquidate!]! @derivedFrom(field: "liquidatee")
 
+  " Сumulative sum of deposit balances at the end of the day in USD "
+  cumulativeEndOfDayDepositUSD: BigDecimal!
+
+  " Сumulative sum of borrow balances at the end of the day in USD "
+  cumulativeEndOfDayBorrowUSD: BigDecimal!
+
   ##### Add Ons #####
 
   " Markets that the account is using as collateral "

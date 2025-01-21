@@ -183,13 +183,15 @@ export function updateMarketSnapshots(
   market: Market,
   newTotalRevenue: BigDecimal,
   newSupplyRevenue: BigDecimal,
-  newProtocolRevenue: BigDecimal
+  newProtocolRevenue: BigDecimal,
+  assetPriceUSD: BigDecimal
 ): void {
   // get and update market daily snapshot
   const marketDailySnapshot = getOrCreateMarketDailySnapshot(
     market,
     timestamp,
-    blockNumber
+    blockNumber,
+    assetPriceUSD
   );
   marketDailySnapshot.rates = getSnapshotRates(
     market.rates,
@@ -783,6 +785,8 @@ export function createAccount(accountID: string): Account {
   account.repayCount = 0;
   account.liquidateCount = 0;
   account.liquidationCount = 0;
+  account.cumulativeEndOfDayDepositUSD = BIGDECIMAL_ZERO;
+  account.cumulativeEndOfDayBorrowUSD = BIGDECIMAL_ZERO;
   account._enabledCollaterals = [];
   account.save();
   return account;
@@ -831,7 +835,8 @@ export function getMarketByAuxillaryToken(
 function getOrCreateMarketDailySnapshot(
   market: Market,
   blockTimestamp: BigInt,
-  blockNumber: BigInt
+  blockNumber: BigInt,
+  assetPriceUSD?: BigDecimal
 ): MarketDailySnapshot {
   const snapshotID = `${market.id}-${(
     blockTimestamp.toI32() / SECONDS_PER_DAY
@@ -852,6 +857,11 @@ function getOrCreateMarketDailySnapshot(
 
     snapshot.protocol = market.protocol;
     snapshot.market = market.id;
+
+    // update  cumulative sum of supply and borrow balances at the end of the day
+    if (assetPriceUSD) {
+      updateCumulativeEndOfDayBalances(market, assetPriceUSD);
+    }
   }
 
   snapshot.rates = getSnapshotRates(
@@ -1073,4 +1083,40 @@ export function getBorrowBalance(
   const totalDebt = sDebtTokenBalance.plus(vDebtTokenBalance);
 
   return ethereum.CallResult.fromValue(totalDebt);
+}
+
+export function updateCumulativeEndOfDayBalances(
+  market: Market,
+  assetPriceUSD: BigDecimal
+): void {
+  const activeAccounts = ActiveAccount.load();
+
+  activeAccounts.forEach((activeAccountId) => {
+    const parts = activeAccountId.split("-");
+    const accountID = parts[1];
+
+    if (parts.length >= 3 && accountID) {
+      let account = Account.load(accountID.toHexString());
+
+      if (!account) {
+        throw new Error("[ActiveAccount] Account not found");
+      } else {
+        const aTokenContract = AToken.bind(
+          Address.fromString(market.outputToken!)
+        );
+        const depositBalance = aTokenContract.try_balanceOf(accountID);
+        const borrowBalance = getBorrowBalance(market, accountID);
+
+        account.cumulativeEndOfDayDepositUSD =
+          account.cumulativeEndOfDayDepositUSD.plus(
+            depositBalance * assetPriceUSD
+          );
+        account.cumulativeEndOfDayBorrowUSD =
+          account.cumulativeEndOfDayBorrowUSD.plus(
+            borrowBalance * assetPriceUSD
+          );
+        account.save();
+      }
+    }
+  });
 }

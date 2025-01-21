@@ -515,7 +515,8 @@ export function _handleReserveDataUpdated(
     market,
     totalRevenueDeltaUSD,
     supplySideRevenueDeltaUSD,
-    protocolSideRevenueDeltaUSD
+    protocolSideRevenueDeltaUSD,
+    assetPriceUSD
   );
 }
 
