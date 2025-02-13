@@ -15,8 +15,10 @@
     "test": "graph test",
     "setup": "yarn codegen && yarn create-local && yarn deploy-local",
     "prepare:taiko": "mustache config/config-taiko.json subgraph.template.yaml > subgraph.yaml && yarn codegen && yarn build",
-    "create:taiko": "yarn prepare:taiko && goldsky subgraph create takotako/takotako-taiko",
-    "deploy:taiko": "yarn prepare:taiko && goldsky subgraph deploy takotako/takotako-taiko"
+    "create:taiko:goldsky": "yarn prepare:taiko && goldsky subgraph create takotako/takotako-taiko",
+    "create:taiko:ormi": "yarn prepare:taiko && 0xgraph create takotako",
+    "deploy:taiko:goldsky": "yarn prepare:taiko && goldsky subgraph deploy takotako/takotako-taiko",
+    "deploy:taiko:ormi": "yarn prepare:taiko && 0xgraph deploy takotako"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.56.0",
