@@ -154,7 +154,10 @@ export function handleReserveDataUpdated(event: ReserveDataUpdated): void {
 
   const gTokenContract = GToken.bind(Address.fromString(market.outputToken!));
   const tryIncentiveController = gTokenContract.try_getIncentivesController();
-  if (!tryIncentiveController.reverted) {
+  if (
+    !tryIncentiveController.reverted &&
+    tryIncentiveController.value != Address.zero()
+  ) {
     const incentiveControllerContract = ChefIncentivesController.bind(
       tryIncentiveController.value
     );
