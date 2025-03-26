@@ -1,6 +1,6 @@
-import { Address, BigDecimal, dataSource, log } from "@graphprotocol/graph-ts";
+import { Address, BigDecimal, log } from "@graphprotocol/graph-ts";
 import { PriceOracleUpdated } from "../generated/LendingPoolAddressesProvider/LendingPoolAddressesProvider";
-import { TakoTakoProtocol } from "./constants";
+import { Protocol } from "./protocol";
 import {
   BorrowingDisabledOnReserve,
   BorrowingEnabledOnReserve,
@@ -56,12 +56,11 @@ import {
 } from "./constants";
 
 function getProtocolData(): ProtocolData {
-  const network: string = dataSource.network();
   return new ProtocolData(
-    TakoTakoProtocol.PROTOCOL_ADDRESS,
-    TakoTakoProtocol.NAME,
-    TakoTakoProtocol.SLUG,
-    TakoTakoProtocol.NETWORK
+    Protocol.PROTOCOL_ADDRESS,
+    Protocol.NAME,
+    Protocol.SLUG,
+    Protocol.NETWORK
   );
 }
 

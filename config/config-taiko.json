@@ -1,5 +1,7 @@
 {
   "network": "taiko",
+  "name": "TAKOTAKO",
+  "slug": "takotako",
   "factory": {
     "startBlock": "381014",
     "address": "0x225BD906D398B1748d7DeF4a35A96f6E5eFD1420"

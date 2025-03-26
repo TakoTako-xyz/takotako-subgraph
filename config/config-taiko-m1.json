@@ -1,0 +1,17 @@
+{
+  "network": "taiko",
+  "name": "TAKOTAKO-M1",
+  "slug": "takotako-m1",
+  "factory": {
+    "startBlock": "977010",
+    "address": "0x152C9a2B3952aC876d32e521E5A729C59D525eCb"
+  },
+  "lendingPoolConfigurator": {
+    "startBlock": "977010",
+    "address": "0x2A6B73cF3775a1F319b6c8db9b4479d681B3ce0D"
+  },
+  "lendingPool": {
+    "startBlock": "977010",
+    "address": "0xe882a56b8c0C1a5561Febf846614B88718Dc5D9E"
+  }
+}

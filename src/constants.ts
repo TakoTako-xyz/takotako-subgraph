@@ -125,15 +125,3 @@ export function exponentToBigDecimal(decimals: i32): BigDecimal {
 export function equalsIgnoreCase(a: string, b: string): boolean {
   return a.replace("-", "_").toLowerCase() == b.replace("-", "_").toLowerCase();
 }
-
-/////////////////////////////
-///// Protocol Specific /////
-/////////////////////////////
-
-export namespace TakoTakoProtocol {
-  export const NAME = "TAKOTAKO";
-  export const SLUG = "takotako";
-  export const PROTOCOL_ADDRESS = "0x225BD906D398B1748d7DeF4a35A96f6E5eFD1420"; // LendingPoolAddressesProvider
-  export const NETWORK = Network.TAIKO;
-  export const REWARD_TOKEN_ADDRESS = ""; // Protocol token
-}

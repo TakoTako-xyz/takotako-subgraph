@@ -14,9 +14,11 @@
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 takotako",
     "test": "graph test",
     "setup": "yarn codegen && yarn create-local && yarn deploy-local",
-    "prepare:taiko": "mustache config/config-taiko.json subgraph.template.yaml > subgraph.yaml && yarn codegen && yarn build",
+    "prepare:taiko": "mustache config/config-taiko.json subgraph.template.yaml > subgraph.yaml && mustache config/config-taiko.json src/protocol.template.ts > src/protocol.ts && yarn codegen && yarn build",
+    "prepare:taiko:m1": "mustache config/config-taiko-m1.json subgraph.template.yaml > subgraph.yaml && mustache config/config-taiko-m1.json src/protocol.template.ts > src/protocol.ts && yarn codegen && yarn build",
     "create:taiko:ormi": "yarn prepare:taiko && 0xgraph create takotako",
-    "deploy:taiko:goldsky": "yarn prepare:taiko && goldsky subgraph deploy takotako/1.0.1",
+    "deploy:taiko:goldsky": "yarn prepare:taiko && goldsky subgraph deploy takotako/1.0.0",
+    "deploy:taiko:m1:goldsky": "yarn prepare:taiko:m1 && goldsky subgraph deploy takotako-m1/1.0.0",
     "deploy:taiko:ormi": "yarn prepare:taiko && 0xgraph deploy takotako"
   },
   "dependencies": {
